@@ -33,7 +33,10 @@
   <!-- 📚 ステップ①：章一覧画面（最初は非表示） -->
   <div id="chapterList" class="hidden">
     <h2>章一覧</h2>
+
+    <!-- 🔙 ホームに戻るボタン -->
     <button id="btn-home" class="back-btn">ホームに戻る</button>
+
     <div id="chapterButtons"></div>
   </div>
 
@@ -68,6 +71,12 @@
     document.getElementById("btn-chapters").addEventListener("click", () => {
       document.querySelector(".top-page").classList.add("hidden");
       document.getElementById("chapterList").classList.remove("hidden");
+    });
+
+    /* 🔙 ホームに戻るボタンの動作 */
+    document.getElementById("btn-home").addEventListener("click", () => {
+      document.getElementById("chapterList").classList.add("hidden");
+      document.querySelector(".top-page").classList.remove("hidden");
     });
 
     /* ステップ④：章タイトルを自動でボタン生成 */
