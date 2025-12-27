@@ -30,17 +30,24 @@
 
   </div>
 
-  <!-- 📚 ステップ①：章一覧画面（最初は非表示） -->
+  <!-- 📚 章一覧画面 -->
   <div id="chapterList" class="hidden">
     <h2>章一覧</h2>
-
-    <!-- 🔙 ホームに戻るボタン -->
     <button id="btn-home" class="back-btn">ホームに戻る</button>
-
     <div id="chapterButtons"></div>
   </div>
 
-  <!-- 🔽 JSON読み込み＋ステップ②〜④ -->
+  <!-- 📘 用語一覧画面（ステップ⑤） -->
+  <div id="termList" class="hidden">
+    <h2 id="termListTitle">用語一覧</h2>
+
+    <button id="btn-term-home" class="back-btn">ホームに戻る</button>
+    <button id="btn-back-chapters" class="back-btn">章一覧に戻る</button>
+
+    <div id="termButtons"></div>
+  </div>
+
+  <!-- 🔽 JSON読み込み＋画面切り替え -->
   <script>
     /* JSONファイル一覧 */
     const chapterFiles = [
@@ -61,39 +68,4 @@
       const allChapters = [];
       for (const file of chapterFiles) {
         const response = await fetch(file);
-        const json = await response.json();
-        allChapters.push(json);
-      }
-      return allChapters;
-    }
-
-    /* ステップ②：章一覧ボタンを押したら画面切り替え */
-    document.getElementById("btn-chapters").addEventListener("click", () => {
-      document.querySelector(".top-page").classList.add("hidden");
-      document.getElementById("chapterList").classList.remove("hidden");
-    });
-
-    /* 🔙 ホームに戻るボタンの動作 */
-    document.getElementById("btn-home").addEventListener("click", () => {
-      document.getElementById("chapterList").classList.add("hidden");
-      document.querySelector(".top-page").classList.remove("hidden");
-    });
-
-    /* ステップ④：章タイトルを自動でボタン生成 */
-    window.addEventListener("DOMContentLoaded", async () => {
-      const chapters = await loadAllChapters();
-      console.log("読み込んだ章データ：", chapters);
-
-      const chapterButtons = document.getElementById("chapterButtons");
-
-      chapters.forEach((chapter, index) => {
-        const btn = document.createElement("button");
-        btn.className = "menu-btn";
-        btn.textContent = `第${index + 1}章：${chapter.chapter_title}`;
-        chapterButtons.appendChild(btn);
-      });
-    });
-  </script>
-
-</body>
-</html>
+        const json = await response
