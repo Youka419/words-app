@@ -19,36 +19,22 @@
       class="search-bar"
     />
 
-    <!-- 📚 メニューのボタンたち -->
+    <!-- 📚 メニューのボタンたち（2行×3列） -->
     <div class="menu-buttons">
 
-      <button class="menu-btn" id="btn-chapters">
-        章一覧（用語集）
-      </button>
-
-      <button class="menu-btn" id="btn-random">
-        ランダムで1語学ぶ
-      </button>
-
-      <button class="menu-btn" id="btn-today10">
-        今日の10語
-      </button>
-
-      <button class="menu-btn" id="btn-test">
-        章ごとのミニテスト
-      </button>
-
-      <button class="menu-btn" id="btn-wrong">
-        苦手語リスト
-      </button>
+      <button class="menu-btn" id="btn-chapters">章一覧（用語集）</button>
+      <button class="menu-btn" id="btn-random">ランダムで1語学ぶ</button>
+      <button class="menu-btn" id="btn-today10">今日の10語</button>
+      <button class="menu-btn" id="btn-test">章ごとのミニテスト</button>
+      <button class="menu-btn" id="btn-wrong">苦手語リスト</button>
+      <button class="menu-btn" style="visibility: hidden;">（空白）</button>
 
     </div>
 
   </div>
 
-  <!-- 🔽 ここからJSON読み込みのスクリプト -->
+  <!-- 🔽 JSON読み込みスクリプト -->
   <script>
-    // 読み込むJSONファイル一覧
     const chapterFiles = [
       "data/01_ai.json",
       "data/02_trends.json",
@@ -62,7 +48,6 @@
       "data/10_ai_ethics_governance.json"
     ];
 
-    // JSONを全部読み込む関数
     async function loadAllChapters() {
       const allChapters = [];
 
@@ -75,7 +60,6 @@
       return allChapters;
     }
 
-    // ページ読み込み時に実行
     window.addEventListener("DOMContentLoaded", async () => {
       const chapters = await loadAllChapters();
       console.log("読み込んだ章データ：", chapters);

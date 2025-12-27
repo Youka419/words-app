@@ -1,6 +1,13 @@
+body {
+  font-family: sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
+
 .top-page {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 40px auto;
   padding: 20px;
 }
 
@@ -8,25 +15,29 @@
   width: 100%;
   padding: 12px;
   font-size: 16px;
-  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 24px;
 }
 
 .menu-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
 }
 
 .menu-btn {
   padding: 14px;
-  font-size: 18px;
+  font-size: 16px;
   border: none;
-  background-color: #4a90e2;
+  background: linear-gradient(to bottom, #6fb1fc, #367be2);
   color: white;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
+  text-align: center;
+  transition: background 0.3s;
 }
 
 .menu-btn:hover {
-  background-color: #357ab8;
+  background: linear-gradient(to bottom, #5a9be0, #2f66c2);
 }
