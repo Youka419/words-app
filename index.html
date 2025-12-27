@@ -1,19 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>G検定 用語集</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>G検定 用語集</h1>
+<div class="top-page">
 
-  <!-- 検索欄 -->
-  <input id="search" placeholder="検索..." />
+  <!-- 🔍 検索バー -->
+  <input 
+    type="text" 
+    id="searchInput" 
+    placeholder="用語を検索する…" 
+    class="search-bar"
+  />
 
-  <!-- 単語リスト -->
-  <ul id="list"></ul>
+  <!-- 📚 メニューのボタンたち -->
+  <div class="menu-buttons">
 
-  <script src="script.js"></script>
-</body>
-</html>
+    <button class="menu-btn" id="btn-chapters">
+      章一覧（用語集）
+    </button>
+
+    <button class="menu-btn" id="btn-random">
+      ランダムで1語学ぶ
+    </button>
+
+    <button class="menu-btn" id="btn-today10">
+      今日の10語
+    </button>
+
+    <button class="menu-btn" id="btn-test">
+      章ごとのミニテスト
+    </button>
+
+    <button class="menu-btn" id="btn-wrong">
+      苦手語リスト
+    </button>
+
+  </div>
+
+</div>

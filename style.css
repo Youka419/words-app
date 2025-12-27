@@ -1,16 +1,32 @@
-body {
-  font-family: sans-serif;
+.top-page {
+  max-width: 600px;
+  margin: 0 auto;
   padding: 20px;
 }
 
-input {
+.search-bar {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
+  padding: 12px;
   font-size: 16px;
+  margin-bottom: 20px;
 }
 
-li {
-  margin: 10px 0;
-  line-height: 1.4;
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-btn {
+  padding: 14px;
+  font-size: 18px;
+  border: none;
+  background-color: #4a90e2;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menu-btn:hover {
+  background-color: #357ab8;
 }
