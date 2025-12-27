@@ -1,36 +1,86 @@
-<div class="top-page">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI用語集アプリ</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-  <!-- 🔍 検索バー -->
-  <input 
-    type="text" 
-    id="searchInput" 
-    placeholder="用語を検索する…" 
-    class="search-bar"
-  />
+<body>
 
-  <!-- 📚 メニューのボタンたち -->
-  <div class="menu-buttons">
+  <div class="top-page">
 
-    <button class="menu-btn" id="btn-chapters">
-      章一覧（用語集）
-    </button>
+    <!-- 🔍 検索バー -->
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="用語を検索する…" 
+      class="search-bar"
+    />
 
-    <button class="menu-btn" id="btn-random">
-      ランダムで1語学ぶ
-    </button>
+    <!-- 📚 メニューのボタンたち -->
+    <div class="menu-buttons">
 
-    <button class="menu-btn" id="btn-today10">
-      今日の10語
-    </button>
+      <button class="menu-btn" id="btn-chapters">
+        章一覧（用語集）
+      </button>
 
-    <button class="menu-btn" id="btn-test">
-      章ごとのミニテスト
-    </button>
+      <button class="menu-btn" id="btn-random">
+        ランダムで1語学ぶ
+      </button>
 
-    <button class="menu-btn" id="btn-wrong">
-      苦手語リスト
-    </button>
+      <button class="menu-btn" id="btn-today10">
+        今日の10語
+      </button>
+
+      <button class="menu-btn" id="btn-test">
+        章ごとのミニテスト
+      </button>
+
+      <button class="menu-btn" id="btn-wrong">
+        苦手語リスト
+      </button>
+
+    </div>
 
   </div>
 
-</div>
+  <!-- 🔽 ここからJSON読み込みのスクリプト -->
+  <script>
+    // 読み込むJSONファイル一覧
+    const chapterFiles = [
+      "data/01_ai.json",
+      "data/02_trends.json",
+      "data/03_machine_learning.json",
+      "data/04_deep_learning.json",
+      "data/05_dl_components.json",
+      "data/06_dl_applications.json",
+      "data/07_ai_social_implementation.json",
+      "data/08_math_statistics.json",
+      "data/09_ai_law_contract.json",
+      "data/10_ai_ethics_governance.json"
+    ];
+
+    // JSONを全部読み込む関数
+    async function loadAllChapters() {
+      const allChapters = [];
+
+      for (const file of chapterFiles) {
+        const response = await fetch(file);
+        const json = await response.json();
+        allChapters.push(json);
+      }
+
+      return allChapters;
+    }
+
+    // ページ読み込み時に実行
+    window.addEventListener("DOMContentLoaded", async () => {
+      const chapters = await loadAllChapters();
+      console.log("読み込んだ章データ：", chapters);
+    });
+  </script>
+
+</body>
+</html>
