@@ -41,3 +41,20 @@ body {
 .menu-btn:hover {
   background: linear-gradient(to bottom, #5a9be0, #2f66c2);
 }
+
+/* ステップ①：章一覧を最初は非表示にする */
+.hidden {
+  display: none;
+}
+
+#chapterList {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+#chapterButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

@@ -9,9 +9,9 @@
 
 <body>
 
+  <!-- 🔍 TOPページ -->
   <div class="top-page">
 
-    <!-- 🔍 検索バー -->
     <input 
       type="text" 
       id="searchInput" 
@@ -19,22 +19,26 @@
       class="search-bar"
     />
 
-    <!-- 📚 メニューのボタンたち（2行×3列） -->
     <div class="menu-buttons">
-
       <button class="menu-btn" id="btn-chapters">章一覧（用語集）</button>
       <button class="menu-btn" id="btn-random">ランダムで1語学ぶ</button>
       <button class="menu-btn" id="btn-today10">今日の10語</button>
       <button class="menu-btn" id="btn-test">章ごとのミニテスト</button>
       <button class="menu-btn" id="btn-wrong">苦手語リスト</button>
       <button class="menu-btn" style="visibility: hidden;">（空白）</button>
-
     </div>
 
   </div>
 
-  <!-- 🔽 JSON読み込みスクリプト -->
+  <!-- 📚 ステップ①：章一覧画面（最初は非表示） -->
+  <div id="chapterList" class="hidden">
+    <h2>章一覧</h2>
+    <div id="chapterButtons"></div>
+  </div>
+
+  <!-- 🔽 JSON読み込み＋ステップ②〜④のスクリプト -->
   <script>
+    /* JSONファイル一覧 */
     const chapterFiles = [
       "data/01_ai.json",
       "data/02_trends.json",
@@ -48,21 +52,36 @@
       "data/10_ai_ethics_governance.json"
     ];
 
+    /* JSONを全部読み込む */
     async function loadAllChapters() {
       const allChapters = [];
-
       for (const file of chapterFiles) {
         const response = await fetch(file);
         const json = await response.json();
         allChapters.push(json);
       }
-
       return allChapters;
     }
 
+    /* ステップ②：章一覧ボタンを押したら画面切り替え */
+    document.getElementById("btn-chapters").addEventListener("click", () => {
+      document.querySelector(".top-page").classList.add("hidden");
+      document.getElementById("chapterList").classList.remove("hidden");
+    });
+
+    /* ステップ④：章タイトルを自動でボタン生成 */
     window.addEventListener("DOMContentLoaded", async () => {
       const chapters = await loadAllChapters();
       console.log("読み込んだ章データ：", chapters);
+
+      const chapterButtons = document.getElementById("chapterButtons");
+
+      chapters.forEach((chapter, index) => {
+        const btn = document.createElement("button");
+        btn.className = "menu-btn";
+        btn.textContent = `第${index + 1}章：${chapter.chapter_title}`;
+        chapterButtons.appendChild(btn);
+      });
     });
   </script>
 
