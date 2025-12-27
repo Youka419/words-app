@@ -1,52 +1,3 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI用語集アプリ</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-
-<body>
-
-  <!-- 🔍 TOPページ -->
-  <div class="top-page">
-
-    <input 
-      type="text" 
-      id="searchInput" 
-      placeholder="用語を検索する…" 
-      class="search-bar"
-    />
-
-    <div class="menu-buttons">
-      <button class="menu-btn" id="btn-chapters">章一覧（用語集）</button>
-      <button class="menu-btn" id="btn-random">ランダムで1語学ぶ</button>
-      <button class="menu-btn" id="btn-today10">今日の10語</button>
-      <button class="menu-btn" id="btn-test">章ごとのミニテスト</button>
-      <button class="menu-btn" id="btn-wrong">苦手語リスト</button>
-      <button class="menu-btn" style="visibility: hidden;">（空白）</button>
-    </div>
-
-  </div>
-
-  <!-- 📚 章一覧画面 -->
-  <div id="chapterList" class="hidden">
-    <h2>章一覧</h2>
-    <button id="btn-home" class="back-btn">ホームに戻る</button>
-    <div id="chapterButtons"></div>
-  </div>
-
-  <!-- 📘 用語一覧画面（ステップ⑤） -->
-  <div id="termList" class="hidden">
-    <h2 id="termListTitle">用語一覧</h2>
-
-    <button id="btn-term-home" class="back-btn">ホームに戻る</button>
-    <button id="btn-back-chapters" class="back-btn">章一覧に戻る</button>
-
-    <div id="termButtons"></div>
-  </div>
-
   <!-- 🔽 JSON読み込み＋画面切り替え -->
   <script>
     /* JSONファイル一覧 */
@@ -68,4 +19,94 @@
       const allChapters = [];
       for (const file of chapterFiles) {
         const response = await fetch(file);
-        const json = await response
+        const json = await response.json();
+        allChapters.push(json);
+      }
+      return allChapters;
+    }
+
+    /* 章一覧ボタン → 章一覧画面へ */
+    document.getElementById("btn-chapters").addEventListener("click", () => {
+      document.querySelector(".top-page").classList.add("hidden");
+      document.getElementById("chapterList").classList.remove("hidden");
+    });
+
+    /* ホームに戻る（章一覧） */
+    document.getElementById("btn-home").addEventListener("click", () => {
+      document.getElementById("chapterList").classList.add("hidden");
+      document.querySelector(".top-page").classList.remove("hidden");
+    });
+
+    /* ホームに戻る（用語一覧） */
+    document.getElementById("btn-term-home").addEventListener("click", () => {
+      document.getElementById("termList").classList.add("hidden");
+      document.querySelector(".top-page").classList.remove("hidden");
+    });
+
+    /* 章一覧に戻る（用語一覧） */
+    document.getElementById("btn-back-chapters").addEventListener("click", () => {
+      document.getElementById("termList").classList.add("hidden");
+      document.getElementById("chapterList").classList.remove("hidden");
+    });
+
+    /* 用語詳細画面の戻るボタン（後で追加するための空） */
+    // ※詳細画面はまだHTMLに追加されていないので後で追加するよ
+
+    /* 用語一覧を表示する関数（ステップ⑤） */
+    function showTerms(chapterIndex, chapterData) {
+      document.getElementById("chapterList").classList.add("hidden");
+      document.getElementById("termList").classList.remove("hidden");
+
+      document.getElementById("termListTitle").textContent =
+        `第${chapterIndex + 1}章：${chapterData.chapter_title}`;
+
+      const termButtons = document.getElementById("termButtons");
+      termButtons.innerHTML = "";
+
+      chapterData.terms.forEach((term) => {
+        const btn = document.createElement("button");
+        btn.className = "menu-btn";
+        btn.textContent = term.term;
+
+        // 🔽 用語を押したら詳細画面へ（ステップ⑥）
+        btn.addEventListener("click", () => {
+          showTermDetail(term);
+        });
+
+        termButtons.appendChild(btn);
+      });
+    }
+
+    /* 用語詳細を表示する関数（ステップ⑥） */
+    function showTermDetail(termData) {
+      document.getElementById("termList").classList.add("hidden");
+      document.getElementById("termDetail").classList.remove("hidden");
+
+      document.getElementById("detailTerm").textContent = termData.term;
+      document.getElementById("detailReading").textContent = termData.reading || "（なし）";
+      document.getElementById("detailDefinition").textContent = termData.definition || "（定義なし）";
+      document.getElementById("detailExample").textContent = termData.example || "（例文なし）";
+    }
+
+    /* 章ボタン生成（ステップ④＋⑤） */
+    window.addEventListener("DOMContentLoaded", async () => {
+      const chapters = await loadAllChapters();
+      const chapterButtons = document.getElementById("chapterButtons");
+
+      chapters.forEach((chapter, index) => {
+        const btn = document.createElement("button");
+        btn.className = "menu-btn";
+        btn.textContent = `第${index + 1}章：${chapter.chapter_title}`;
+
+        // 🔽 章ボタンを押したら用語一覧へ
+        btn.addEventListener("click", () => {
+          showTerms(index, chapters[index]);
+        });
+
+        chapterButtons.appendChild(btn);
+      });
+    });
+  </script>
+
+</body>
+</html>
