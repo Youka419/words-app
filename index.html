@@ -13,28 +13,28 @@
   <div id="randomWordPage" class="hidden">
     <button class="back-btn" onclick="showPage('topPage')">← ホームに戻る</button>
     <h2>ランダムで1語学ぶ</h2>
-    <div id="randomWordContent">ここにランダム語が表示されます</div>
+    <div id="randomWordContent"></div>
   </div>
 
   <!-- 🔟 今日の10語ページ -->
   <div id="todayWordsPage" class="hidden">
     <button class="back-btn" onclick="showPage('topPage')">← ホームに戻る</button>
     <h2>今日の10語</h2>
-    <div id="todayWordsContent">ここに10語が表示されます</div>
+    <div id="todayWordsContent"></div>
   </div>
 
   <!-- 📝 ミニテストページ -->
   <div id="miniTestPage" class="hidden">
     <button class="back-btn" onclick="showPage('topPage')">← ホームに戻る</button>
     <h2>章ごとのミニテスト</h2>
-    <div id="miniTestContent">ここにテストが表示されます</div>
+    <div id="miniTestContent"></div>
   </div>
 
   <!-- 😖 苦手語リストページ -->
   <div id="weakWordsPage" class="hidden">
     <button class="back-btn" onclick="showPage('topPage')">← ホームに戻る</button>
     <h2>苦手語リスト</h2>
-    <div id="weakWordsContent">ここに苦手語が表示されます</div>
+    <div id="weakWordsContent"></div>
   </div>
 
   <!-- 🏠 トップページ -->
@@ -49,15 +49,10 @@
 
     <div class="menu-buttons">
       <button class="menu-btn vocab-btn" id="btn-chapters">章一覧（用語集）</button>
-
-      <!-- 用語系（青） -->
       <button class="menu-btn vocab-btn" id="btn-random">ランダムで1語学ぶ</button>
       <button class="menu-btn vocab-btn" id="btn-today10">今日の10語</button>
       <button class="menu-btn vocab-btn" id="btn-wrong">苦手語リスト</button>
-
-      <!-- テスト系（オレンジ） -->
       <button class="menu-btn test-btn" id="btn-test">章ごとのミニテスト</button>
-
       <button class="menu-btn" style="visibility: hidden;">（空白）</button>
     </div>
 
@@ -95,7 +90,7 @@
     <p id="detailExample"></p>
   </div>
 
-  <!-- 🔽 JavaScript 読み込み（これだけでOK） -->
+  <!-- 🔽 JavaScript 読み込み -->
   <script src="script.js"></script>
 
 </body>
