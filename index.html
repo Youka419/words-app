@@ -9,8 +9,36 @@
 
 <body>
 
-  <!-- 🔍 TOPページ -->
-  <div class="top-page">
+  <!-- 🔍 ランダム1語ページ -->
+  <div id="randomWordPage" class="hidden">
+    <button class="back-btn" onclick="showPage('topPage')">← ホームに戻る</button>
+    <h2>ランダムで1語学ぶ</h2>
+    <div id="randomWordContent">ここにランダム語が表示されます</div>
+  </div>
+
+  <!-- 🔟 今日の10語ページ -->
+  <div id="todayWordsPage" class="hidden">
+    <button class="back-btn" onclick="showPage('topPage')">← ホームに戻る</button>
+    <h2>今日の10語</h2>
+    <div id="todayWordsContent">ここに10語が表示されます</div>
+  </div>
+
+  <!-- 📝 ミニテストページ -->
+  <div id="miniTestPage" class="hidden">
+    <button class="back-btn" onclick="showPage('topPage')">← ホームに戻る</button>
+    <h2>章ごとのミニテスト</h2>
+    <div id="miniTestContent">ここにテストが表示されます</div>
+  </div>
+
+  <!-- 😖 苦手語リストページ -->
+  <div id="weakWordsPage" class="hidden">
+    <button class="back-btn" onclick="showPage('topPage')">← ホームに戻る</button>
+    <h2>苦手語リスト</h2>
+    <div id="weakWordsContent">ここに苦手語が表示されます</div>
+  </div>
+
+  <!-- 🏠 トップページ -->
+  <div id="topPage" class="top-page">
 
     <input 
       type="text" 
@@ -64,7 +92,32 @@
 
   <!-- 🔽 JSON読み込み＋画面切り替え -->
   <script>
-    /* JSONファイル一覧 */
+    /* ------------------------------
+       画面切り替え関数（超重要）
+    ------------------------------ */
+    function showPage(pageId) {
+      const pages = [
+        "topPage",
+        "randomWordPage",
+        "todayWordsPage",
+        "miniTestPage",
+        "weakWordsPage",
+        "chapterList",
+        "termList",
+        "termDetail"
+      ];
+
+      pages.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("hidden");
+      });
+
+      document.getElementById(pageId).classList.remove("hidden");
+    }
+
+    /* ------------------------------
+       JSONファイル一覧
+    ------------------------------ */
     const chapterFiles = [
       "data/01_ai.json",
       "data/02_trends.json",
@@ -89,46 +142,29 @@
       return allChapters;
     }
 
-    /* 章一覧ボタン → 章一覧画面へ */
-    document.getElementById("btn-chapters").addEventListener("click", () => {
-      document.querySelector(".top-page").classList.add("hidden");
-      document.getElementById("chapterList").classList.remove("hidden");
-    });
+    /* ------------------------------
+       トップページ → 各ページ
+    ------------------------------ */
+    document.getElementById("btn-chapters").addEventListener("click", () => showPage("chapterList"));
+    document.getElementById("btn-random").addEventListener("click", () => showPage("randomWordPage"));
+    document.getElementById("btn-today10").addEventListener("click", () => showPage("todayWordsPage"));
+    document.getElementById("btn-test").addEventListener("click", () => showPage("miniTestPage"));
+    document.getElementById("btn-wrong").addEventListener("click", () => showPage("weakWordsPage"));
 
-    /* ホームに戻る（章一覧） */
-    document.getElementById("btn-home").addEventListener("click", () => {
-      document.getElementById("chapterList").classList.add("hidden");
-      document.querySelector(".top-page").classList.remove("hidden");
-    });
+    /* ------------------------------
+       章一覧 → 用語一覧
+    ------------------------------ */
+    document.getElementById("btn-home").addEventListener("click", () => showPage("topPage"));
+    document.getElementById("btn-term-home").addEventListener("click", () => showPage("topPage"));
+    document.getElementById("btn-back-chapters").addEventListener("click", () => showPage("chapterList"));
+    document.getElementById("btn-detail-home").addEventListener("click", () => showPage("topPage"));
+    document.getElementById("btn-detail-back").addEventListener("click", () => showPage("termList"));
 
-    /* ホームに戻る（用語一覧） */
-    document.getElementById("btn-term-home").addEventListener("click", () => {
-      document.getElementById("termList").classList.add("hidden");
-      document.querySelector(".top-page").classList.remove("hidden");
-    });
-
-    /* 章一覧に戻る（用語一覧） */
-    document.getElementById("btn-back-chapters").addEventListener("click", () => {
-      document.getElementById("termList").classList.add("hidden");
-      document.getElementById("chapterList").classList.remove("hidden");
-    });
-
-    /* ホームに戻る（詳細） */
-    document.getElementById("btn-detail-home").addEventListener("click", () => {
-      document.getElementById("termDetail").classList.add("hidden");
-      document.querySelector(".top-page").classList.remove("hidden");
-    });
-
-    /* 用語一覧に戻る（詳細） */
-    document.getElementById("btn-detail-back").addEventListener("click", () => {
-      document.getElementById("termDetail").classList.add("hidden");
-      document.getElementById("termList").classList.remove("hidden");
-    });
-
-    /* 用語一覧を表示する関数 */
+    /* ------------------------------
+       用語一覧を表示
+    ------------------------------ */
     function showTerms(chapterIndex, chapterData) {
-      document.getElementById("chapterList").classList.add("hidden");
-      document.getElementById("termList").classList.remove("hidden");
+      showPage("termList");
 
       document.getElementById("termListTitle").textContent =
         `第${chapterIndex + 1}章：${chapterData.chapter_title}`;
@@ -141,18 +177,17 @@
         btn.className = "menu-btn";
         btn.textContent = term.term;
 
-        btn.addEventListener("click", () => {
-          showTermDetail(term);
-        });
+        btn.addEventListener("click", () => showTermDetail(term));
 
         termButtons.appendChild(btn);
       });
     }
 
-    /* 用語詳細を表示する関数 */
+    /* ------------------------------
+       用語詳細を表示
+    ------------------------------ */
     function showTermDetail(termData) {
-      document.getElementById("termList").classList.add("hidden");
-      document.getElementById("termDetail").classList.remove("hidden");
+      showPage("termDetail");
 
       document.getElementById("detailTerm").textContent = termData.term;
       document.getElementById("detailReading").textContent = termData.reading || "（なし）";
@@ -160,7 +195,9 @@
       document.getElementById("detailExample").textContent = termData.example || "（例文なし）";
     }
 
-    /* 章ボタン生成 */
+    /* ------------------------------
+       章ボタン生成
+    ------------------------------ */
     window.addEventListener("DOMContentLoaded", async () => {
       const chapters = await loadAllChapters();
       const chapterButtons = document.getElementById("chapterButtons");
@@ -170,9 +207,7 @@
         btn.className = "menu-btn";
         btn.textContent = `第${index + 1}章：${chapter.chapter_title}`;
 
-        btn.addEventListener("click", () => {
-          showTerms(index, chapters[index]);
-        });
+        btn.addEventListener("click", () => showTerms(index, chapters[index]));
 
         chapterButtons.appendChild(btn);
       });
