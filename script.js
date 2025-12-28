@@ -1,3 +1,6 @@
+// グローバルに保持する章データ
+let allChapters = [];
+
 /* ------------------------------
    画面切り替え
 ------------------------------ */
@@ -18,8 +21,12 @@ function showPage(pageId) {
     if (el) el.classList.add("hidden");
   });
 
-  document.getElementById(pageId).classList.remove("hidden");
+  const target = document.getElementById(pageId);
+  if (target) target.classList.remove("hidden");
 }
+
+// 他のスクリプトから呼べるように
+window.showPage = showPage;
 
 /* ------------------------------
    JSONファイル一覧
@@ -41,17 +48,21 @@ const chapterFiles = [
    JSON読み込み
 ------------------------------ */
 async function loadAllChapters() {
-  const all = [];
+  // すでに読み込んでいればそれを使う
+  if (allChapters.length > 0) return allChapters;
+
+  const loaded = [];
   for (const file of chapterFiles) {
     try {
       const res = await fetch(file);
       const json = await res.json();
-      all.push(json);
+      loaded.push(json);
     } catch (e) {
       console.error("読み込み失敗:", file, e);
     }
   }
-  return all;
+  allChapters = loaded;
+  return allChapters;
 }
 
 /* ------------------------------
@@ -60,10 +71,11 @@ async function loadAllChapters() {
 function showTerms(chapterIndex, chapterData) {
   showPage("termList");
 
-  document.getElementById("termListTitle").textContent =
-    `第${chapterIndex + 1}章：${chapterData.chapter_title}`;
-
+  const title = document.getElementById("termListTitle");
   const termButtons = document.getElementById("termButtons");
+  if (!title || !termButtons) return;
+
+  title.textContent = `第${chapterIndex + 1}章：${chapterData.chapter_title}`;
   termButtons.innerHTML = "";
 
   chapterData.terms.forEach(term => {
@@ -77,17 +89,28 @@ function showTerms(chapterIndex, chapterData) {
   });
 }
 
+window.showTerms = showTerms;
+
 /* ------------------------------
-   用語詳細
+   用語詳細を表示
 ------------------------------ */
 function showTermDetail(term) {
   showPage("termDetail");
 
-  document.getElementById("detailTerm").textContent = term.term;
-  document.getElementById("detailReading").textContent = term.reading || "（なし）";
-  document.getElementById("detailDefinition").textContent = term.definition || "（定義なし）";
-  document.getElementById("detailExample").textContent = term.example || "（例文なし）";
+  const elTerm = document.getElementById("detailTerm");
+  const elReading = document.getElementById("detailReading");
+  const elDef = document.getElementById("detailDefinition");
+  const elEx = document.getElementById("detailExample");
+
+  if (!elTerm || !elReading || !elDef || !elEx) return;
+
+  elTerm.textContent = term.term;
+  elReading.textContent = term.reading || "（なし）";
+  elDef.textContent = term.definition || "（定義なし）";
+  elEx.textContent = term.example || "（例文なし）";
 }
+
+window.showTermDetail = showTermDetail;
 
 /* ------------------------------
    ランダム1語
@@ -96,15 +119,16 @@ async function showRandomWord() {
   const chapters = await loadAllChapters();
   const allTerms = chapters.flatMap(ch => ch.terms);
 
+  const box = document.getElementById("randomWordContent");
+  if (!box) return;
+
   if (allTerms.length === 0) {
-    document.getElementById("randomWordContent").innerHTML =
-      "語彙データが読み込めませんでした。";
+    box.innerHTML = "語彙データが読み込めませんでした。";
     return;
   }
 
   const random = allTerms[Math.floor(Math.random() * allTerms.length)];
 
-  const box = document.getElementById("randomWordContent");
   box.innerHTML = `
     <h3>${random.term}</h3>
     <p><strong>読み：</strong> ${random.reading || "（なし）"}</p>
@@ -113,29 +137,54 @@ async function showRandomWord() {
     <button class="menu-btn vocab-btn" id="btn-next-random">次の1語</button>
   `;
 
-  document.getElementById("btn-next-random")
-    .addEventListener("click", showRandomWord);
+  const nextBtn = document.getElementById("btn-next-random");
+  if (nextBtn) {
+    nextBtn.addEventListener("click", showRandomWord);
+  }
 }
 
 /* ------------------------------
-   ページ読み込み後の初期化
+   初期化
 ------------------------------ */
 window.addEventListener("DOMContentLoaded", async () => {
-
   // 章一覧ボタン
-  document.getElementById("btn-chapters")
-    .addEventListener("click", () => showPage("chapterList"));
+  const btnChapters = document.getElementById("btn-chapters");
+  if (btnChapters) {
+    btnChapters.addEventListener("click", () => {
+      showPage("chapterList");
+    });
+  }
 
-  // ランダム1語
-  document.getElementById("btn-random")
-    .addEventListener("click", () => {
+  // ランダム1語ボタン
+  const btnRandom = document.getElementById("btn-random");
+  if (btnRandom) {
+    btnRandom.addEventListener("click", () => {
       showPage("randomWordPage");
       showRandomWord();
     });
+  }
 
-  // 章一覧生成
-  const chapters = await loadAllChapters();
+  // 戻る系ボタン
+  const btnHome = document.getElementById("btn-home");
+  if (btnHome) btnHome.addEventListener("click", () => showPage("topPage"));
+
+  const btnTermHome = document.getElementById("btn-term-home");
+  if (btnTermHome) btnTermHome.addEventListener("click", () => showPage("topPage"));
+
+  const btnBackChapters = document.getElementById("btn-back-chapters");
+  if (btnBackChapters) btnBackChapters.addEventListener("click", () => showPage("chapterList"));
+
+  const btnDetailHome = document.getElementById("btn-detail-home");
+  if (btnDetailHome) btnDetailHome.addEventListener("click", () => showPage("topPage"));
+
+  const btnDetailBack = document.getElementById("btn-detail-back");
+  if (btnDetailBack) btnDetailBack.addEventListener("click", () => showPage("termList"));
+
+  // 章ボタン生成
   const chapterButtons = document.getElementById("chapterButtons");
+  if (!chapterButtons) return;
+
+  const chapters = await loadAllChapters();
 
   chapters.forEach((chapter, index) => {
     const btn = document.createElement("button");
