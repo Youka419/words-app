@@ -49,10 +49,15 @@
 
     <div class="menu-buttons">
       <button class="menu-btn" id="btn-chapters">章一覧（用語集）</button>
-      <button class="menu-btn" id="btn-random">ランダムで1語学ぶ</button>
-      <button class="menu-btn" id="btn-today10">今日の10語</button>
-      <button class="menu-btn" id="btn-test">章ごとのミニテスト</button>
-      <button class="menu-btn" id="btn-wrong">苦手語リスト</button>
+
+      <!-- 用語系（青） -->
+      <button class="menu-btn vocab-btn" id="btn-random">ランダムで1語学ぶ</button>
+      <button class="menu-btn vocab-btn" id="btn-today10">今日の10語</button>
+      <button class="menu-btn vocab-btn" id="btn-wrong">苦手語リスト</button>
+
+      <!-- テスト系（オレンジ） -->
+      <button class="menu-btn test-btn" id="btn-test">章ごとのミニテスト</button>
+
       <button class="menu-btn" style="visibility: hidden;">（空白）</button>
     </div>
 
@@ -93,7 +98,7 @@
   <!-- 🔽 JSON読み込み＋画面切り替え -->
   <script>
     /* ------------------------------
-       画面切り替え関数（超重要）
+       画面切り替え関数
     ------------------------------ */
     function showPage(pageId) {
       const pages = [
@@ -174,7 +179,7 @@
 
       chapterData.terms.forEach((term) => {
         const btn = document.createElement("button");
-        btn.className = "menu-btn";
+        btn.className = "menu-btn vocab-btn";
         btn.textContent = term.term;
 
         btn.addEventListener("click", () => showTermDetail(term));
@@ -204,7 +209,7 @@
 
       chapters.forEach((chapter, index) => {
         const btn = document.createElement("button");
-        btn.className = "menu-btn";
+        btn.className = "menu-btn vocab-btn";
         btn.textContent = `第${index + 1}章：${chapter.chapter_title}`;
 
         btn.addEventListener("click", () => showTerms(index, chapters[index]));
