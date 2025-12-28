@@ -25,7 +25,6 @@ function showPage(pageId) {
   if (target) target.classList.remove("hidden");
 }
 
-// 他のスクリプトから呼べるように
 window.showPage = showPage;
 
 /* ------------------------------
@@ -48,7 +47,6 @@ const chapterFiles = [
    JSON読み込み
 ------------------------------ */
 async function loadAllChapters() {
-  // すでに読み込んでいればそれを使う
   if (allChapters.length > 0) return allChapters;
 
   const loaded = [];
@@ -63,6 +61,26 @@ async function loadAllChapters() {
   }
   allChapters = loaded;
   return allChapters;
+}
+
+/* ------------------------------
+   章一覧を再生成する（重要）
+------------------------------ */
+async function renderChapterList() {
+  const chapters = await loadAllChapters();
+  const chapterButtons = document.getElementById("chapterButtons");
+
+  chapterButtons.innerHTML = ""; // ← まず空にする
+
+  chapters.forEach((chapter, index) => {
+    const btn = document.createElement("button");
+    btn.className = "menu-btn vocab-btn";
+    btn.textContent = `第${index + 1}章：${chapter.chapter_title}`;
+
+    btn.addEventListener("click", () => showTerms(index, chapter));
+
+    chapterButtons.appendChild(btn);
+  });
 }
 
 /* ------------------------------
@@ -97,17 +115,10 @@ window.showTerms = showTerms;
 function showTermDetail(term) {
   showPage("termDetail");
 
-  const elTerm = document.getElementById("detailTerm");
-  const elReading = document.getElementById("detailReading");
-  const elDef = document.getElementById("detailDefinition");
-  const elEx = document.getElementById("detailExample");
-
-  if (!elTerm || !elReading || !elDef || !elEx) return;
-
-  elTerm.textContent = term.term;
-  elReading.textContent = term.reading || "（なし）";
-  elDef.textContent = term.definition || "（定義なし）";
-  elEx.textContent = term.example || "（例文なし）";
+  document.getElementById("detailTerm").textContent = term.term;
+  document.getElementById("detailReading").textContent = term.reading || "（なし）";
+  document.getElementById("detailDefinition").textContent = term.definition || "（定義なし）";
+  document.getElementById("detailExample").textContent = term.example || "（例文なし）";
 }
 
 window.showTermDetail = showTermDetail;
@@ -138,24 +149,24 @@ async function showRandomWord() {
   `;
 
   const nextBtn = document.getElementById("btn-next-random");
-  if (nextBtn) {
-    nextBtn.addEventListener("click", showRandomWord);
-  }
+  if (nextBtn) nextBtn.addEventListener("click", showRandomWord);
 }
 
 /* ------------------------------
    初期化
 ------------------------------ */
 window.addEventListener("DOMContentLoaded", async () => {
-  // 章一覧ボタン
+
+  // 章一覧（用語集）
   const btnChapters = document.getElementById("btn-chapters");
   if (btnChapters) {
     btnChapters.addEventListener("click", () => {
+      renderChapterList();     // ← 章ボタンを再生成
       showPage("chapterList");
     });
   }
 
-  // ランダム1語ボタン
+  // ランダム1語
   const btnRandom = document.getElementById("btn-random");
   if (btnRandom) {
     btnRandom.addEventListener("click", () => {
@@ -164,15 +175,21 @@ window.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // 戻る系ボタン
+  // 戻る：章一覧に戻る
+  const btnBackChapters = document.getElementById("btn-back-chapters");
+  if (btnBackChapters) {
+    btnBackChapters.addEventListener("click", () => {
+      renderChapterList();     // ← 章ボタンを再生成
+      showPage("chapterList");
+    });
+  }
+
+  // 戻る：ホーム
   const btnHome = document.getElementById("btn-home");
   if (btnHome) btnHome.addEventListener("click", () => showPage("topPage"));
 
   const btnTermHome = document.getElementById("btn-term-home");
   if (btnTermHome) btnTermHome.addEventListener("click", () => showPage("topPage"));
-
-  const btnBackChapters = document.getElementById("btn-back-chapters");
-  if (btnBackChapters) btnBackChapters.addEventListener("click", () => showPage("chapterList"));
 
   const btnDetailHome = document.getElementById("btn-detail-home");
   if (btnDetailHome) btnDetailHome.addEventListener("click", () => showPage("topPage"));
@@ -180,19 +197,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   const btnDetailBack = document.getElementById("btn-detail-back");
   if (btnDetailBack) btnDetailBack.addEventListener("click", () => showPage("termList"));
 
-  // 章ボタン生成
-  const chapterButtons = document.getElementById("chapterButtons");
-  if (!chapterButtons) return;
-
-  const chapters = await loadAllChapters();
-
-  chapters.forEach((chapter, index) => {
-    const btn = document.createElement("button");
-    btn.className = "menu-btn vocab-btn";
-    btn.textContent = `第${index + 1}章：${chapter.chapter_title}`;
-
-    btn.addEventListener("click", () => showTerms(index, chapter));
-
-    chapterButtons.appendChild(btn);
-  });
+  // 初回だけ章一覧を生成
+  await renderChapterList();
 });
