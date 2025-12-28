@@ -29,7 +29,7 @@ body {
   gap: 16px;
 }
 
-/* ボタン共通 */
+/* ボタン共通（背景は付けない！） */
 .menu-btn {
   padding: 14px;
   font-size: 16px;
