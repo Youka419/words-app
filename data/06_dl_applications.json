@@ -6,157 +6,183 @@
       "term": "画像認識（Image Recognition）",
       "reading": "がぞうにんしき",
       "definition": "画像の中に何が写っているかをAIが判断する技術。",
-      "example": "スマホの写真アプリが人物や食べ物を自動分類する。"
+      "example": "スマホの写真アプリが人物や食べ物を自動分類する。",
+      "category": "画像認識"
     },
     {
       "term": "一般物体認識（Object Classification）",
       "reading": "いっぱんぶったいにんしき",
       "definition": "画像に写っている物体の種類を分類する技術。",
-      "example": "犬か猫かを判定するAI。"
+      "example": "犬か猫かを判定するAI。",
+      "category": "画像認識"
     },
     {
       "term": "物体検出（Object Detection）",
       "reading": "ぶったいけんしゅつ",
       "definition": "画像の中の『どこに』『何が』あるかを四角い枠で示す技術。",
-      "example": "自動運転車が歩行者や信号を見つける。"
+      "example": "自動運転車が歩行者や信号を見つける。",
+      "category": "物体検出"
     },
     {
       "term": "セマンティックセグメンテーション",
       "reading": "せまんてぃっくせぐめんてーしょん",
       "definition": "画像の各ピクセルに『これは道路』『これは空』などのラベルをつける技術。",
-      "example": "自動運転で道路・歩道・車線を区別する。"
+      "example": "自動運転で道路・歩道・車線を区別する。",
+      "category": "セグメンテーション"
     },
     {
       "term": "インスタンスセグメンテーション",
       "reading": "いんすたんすせぐめんてーしょん",
       "definition": "同じ種類の物体でも個体ごとに区別して塗り分ける技術。",
-      "example": "3人の人を『人1』『人2』『人3』と別々に認識する。"
+      "example": "3人の人を『人1』『人2』『人3』と別々に認識する。",
+      "category": "セグメンテーション"
     },
     {
       "term": "パノプティックセグメンテーション",
       "reading": "ぱのぷてぃっくせぐめんてーしょん",
       "definition": "背景（セマンティック）と個体（インスタンス）を同時に理解する総合的な画像解析。",
-      "example": "街全体の構造を理解するAIに使われる。"
+      "example": "街全体の構造を理解するAIに使われる。",
+      "category": "セグメンテーション"
     },
     {
       "term": "姿勢推定（Pose Estimation）",
       "reading": "しせいすいてい",
       "definition": "人や動物の関節の位置を推定し、骨格のように線で表す技術。",
-      "example": "フィットネスアプリが姿勢をチェックする。"
+      "example": "フィットネスアプリが姿勢をチェックする。",
+      "category": "姿勢推定"
     },
     {
       "term": "マルチスペクトル画像",
       "reading": "まるちすぺくとるがぞう",
       "definition": "人間の目では見えない光（赤外線など）も含めて撮影した画像。",
-      "example": "農業で作物の健康状態をチェックする。"
+      "example": "農業で作物の健康状態をチェックする。",
+      "category": "特殊画像"
     },
     {
       "term": "AlexNet",
       "reading": "あれっくすねっと",
       "definition": "2012年に画像認識の精度を大幅に向上させ、ディープラーニングブームのきっかけとなったモデル。",
-      "example": "ImageNetコンテストで圧勝した。"
+      "example": "ImageNetコンテストで圧勝した。",
+      "category": "CNNモデル"
     },
     {
       "term": "VGG",
       "reading": "ぶいじーじー",
       "definition": "シンプルに層を深くしたモデルで、後続モデルの基礎となった。",
-      "example": "16層や19層の深いネットワークが有名。"
+      "example": "16層や19層の深いネットワークが有名。",
+      "category": "CNNモデル"
     },
     {
       "term": "GoogleNet（Inception）",
       "reading": "ぐーぐるねっと",
       "definition": "異なるサイズのフィルタを同時に使う工夫で高性能と軽量化を両立したモデル。",
-      "example": "Inceptionモジュールが特徴的。"
+      "example": "Inceptionモジュールが特徴的。",
+      "category": "CNNモデル"
     },
     {
       "term": "ResNet",
       "reading": "れずねっと",
       "definition": "スキップ結合を使い、非常に深いネットワークでも学習できるようにした革命的モデル。",
-      "example": "152層などの超深層ネットワークが実現した。"
+      "example": "152層などの超深層ネットワークが実現した。",
+      "category": "CNNモデル"
     },
     {
       "term": "DenseNet",
       "reading": "でんすねっと",
       "definition": "すべての層をつなげて情報を最大限活用するモデル。",
-      "example": "特徴を効率よく伝達できる。"
+      "example": "特徴を効率よく伝達できる。",
+      "category": "CNNモデル"
     },
     {
       "term": "MobileNet",
       "reading": "もばいるねっと",
       "definition": "スマホ向けに軽量化されたモデル。深さ方向分離畳み込みを使用。",
-      "example": "スマホアプリの画像認識で使われる。"
+      "example": "スマホアプリの画像認識で使われる。",
+      "category": "CNNモデル"
     },
     {
       "term": "EfficientNet",
       "reading": "えふぃしぇんとねっと",
       "definition": "深さ・幅・解像度をバランスよく調整して高性能を実現したモデル。",
-      "example": "少ない計算量で高精度を出せる。"
+      "example": "少ない計算量で高精度を出せる。",
+      "category": "CNNモデル"
     },
     {
       "term": "Faster R-CNN",
       "reading": "ふぁすたーあーるしーえぬえぬ",
       "definition": "高精度な物体検出モデル。領域提案と分類を組み合わせている。",
-      "example": "精度重視の物体検出で使われる。"
+      "example": "精度重視の物体検出で使われる。",
+      "category": "物体検出"
     },
     {
       "term": "YOLO（You Only Look Once）",
       "reading": "よーろー",
       "definition": "非常に高速な物体検出モデル。リアルタイム処理に向いている。",
-      "example": "監視カメラや自動運転で使われる。"
+      "example": "監視カメラや自動運転で使われる。",
+      "category": "物体検出"
     },
     {
       "term": "SSD（Single Shot Detector）",
       "reading": "えすえすでぃー",
       "definition": "高速な物体検出モデルで、モバイルでも動作可能。",
-      "example": "軽量な物体検出に使われる。"
+      "example": "軽量な物体検出に使われる。",
+      "category": "物体検出"
     },
     {
       "term": "FCN（Fully Convolutional Network）",
       "reading": "えふしーえぬ",
       "definition": "セグメンテーションの基本モデル。全ての層が畳み込みで構成される。",
-      "example": "画像をピクセル単位で分類する。"
+      "example": "画像をピクセル単位で分類する。",
+      "category": "セグメンテーション"
     },
     {
       "term": "U-Net",
       "reading": "ゆーねっと",
       "definition": "エンコーダとデコーダを組み合わせた構造で、医療画像でよく使われる。",
-      "example": "腫瘍の領域を塗り分ける。"
+      "example": "腫瘍の領域を塗り分ける。",
+      "category": "セグメンテーション"
     },
     {
       "term": "SegNet",
       "reading": "せぐねっと",
       "definition": "位置情報を保持しながら復元するセグメンテーションモデル。",
-      "example": "道路の区分などに使われる。"
+      "example": "道路の区分などに使われる。",
+      "category": "セグメンテーション"
     },
     {
       "term": "PSPNet",
       "reading": "ぴーえすぴーねっと",
       "definition": "画像全体の文脈を理解するためのピラミッドプーリングを使うモデル。",
-      "example": "広い範囲の情報を使って精度を上げる。"
+      "example": "広い範囲の情報を使って精度を上げる。",
+      "category": "セグメンテーション"
     },
     {
       "term": "DeepLab",
       "reading": "でぃーぷらぼ",
       "definition": "輪郭をきれいに分けることが得意なセグメンテーションモデル。",
-      "example": "物体の境界を正確に切り取る。"
+      "example": "物体の境界を正確に切り取る。",
+      "category": "セグメンテーション"
     },
     {
       "term": "Vision Transformer（ViT）",
       "reading": "びじょんとらんすふぉーまー",
       "definition": "画像を小さなパッチに分けて処理するTransformerベースの画像モデル。",
-      "example": "CNNを使わずに高精度を実現した。"
+      "example": "CNNを使わずに高精度を実現した。",
+      "category": "Transformerモデル"
     },
     {
       "term": "Swin Transformer",
       "reading": "すうぃんとらんすふぉーまー",
       "definition": "局所と全体の情報を効率よく扱うTransformerモデル。",
-      "example": "多くの画像タスクで高性能を発揮する。"
+      "example": "多くの画像タスクで高性能を発揮する。",
+      "category": "Transformerモデル"
     },
     {
       "term": "OpenPose",
       "reading": "おーぷんぽーず",
       "definition": "リアルタイムで人の姿勢（骨格）を推定するモデル。",
-      "example": "ダンスやスポーツの動きを解析する。"
+      "example": "ダンスやスポーツの動きを解析する。",
+      "category": "姿勢推定"
     }
   ]
 }
