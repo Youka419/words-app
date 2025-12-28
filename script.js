@@ -148,8 +148,49 @@ async function showRandomWord() {
     <button class="menu-btn vocab-btn" id="btn-next-random">次の1語</button>
   `;
 
-  const nextBtn = document.getElementById("btn-next-random");
-  if (nextBtn) nextBtn.addEventListener("click", showRandomWord);
+  document.getElementById("btn-next-random")
+    .addEventListener("click", showRandomWord);
+}
+
+/* ------------------------------
+   今日の10語
+------------------------------ */
+async function showTodayWords() {
+  const chapters = await loadAllChapters();
+  const allTerms = chapters.flatMap(ch => ch.terms);
+
+  const box = document.getElementById("todayWordsContent");
+  if (!box) return;
+
+  if (allTerms.length === 0) {
+    box.innerHTML = "語彙データが読み込めませんでした。";
+    return;
+  }
+
+  // ランダムに10語選ぶ
+  const shuffled = [...allTerms].sort(() => Math.random() - 0.5);
+  const today10 = shuffled.slice(0, 10);
+
+  // 表示
+  box.innerHTML = today10
+    .map(term => `
+      <div class="today-item">
+        <h3>${term.term}</h3>
+        <p><strong>読み：</strong> ${term.reading || "（なし）"}</p>
+        <p><strong>定義：</strong> ${term.definition || "（定義なし）"}</p>
+        <p><strong>例：</strong> ${term.example || "（例文なし）"}</p>
+      </div>
+      <hr>
+    `)
+    .join("");
+
+  // 次の10語ボタン
+  box.innerHTML += `
+    <button class="menu-btn vocab-btn" id="btn-next-today10">次の10語</button>
+  `;
+
+  document.getElementById("btn-next-today10")
+    .addEventListener("click", showTodayWords);
 }
 
 /* ------------------------------
@@ -161,7 +202,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   const btnChapters = document.getElementById("btn-chapters");
   if (btnChapters) {
     btnChapters.addEventListener("click", () => {
-      renderChapterList();     // ← 章ボタンを再生成
+      renderChapterList();
       showPage("chapterList");
     });
   }
@@ -175,11 +216,20 @@ window.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  // 今日の10語
+  const btnToday10 = document.getElementById("btn-today10");
+  if (btnToday10) {
+    btnToday10.addEventListener("click", () => {
+      showPage("todayWordsPage");
+      showTodayWords();
+    });
+  }
+
   // 戻る：章一覧に戻る
   const btnBackChapters = document.getElementById("btn-back-chapters");
   if (btnBackChapters) {
     btnBackChapters.addEventListener("click", () => {
-      renderChapterList();     // ← 章ボタンを再生成
+      renderChapterList();
       showPage("chapterList");
     });
   }
