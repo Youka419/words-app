@@ -50,7 +50,6 @@
     <div class="menu-buttons">
       <button class="menu-btn vocab-btn" id="btn-chapters">章一覧（用語集）</button>
 
-
       <!-- 用語系（青） -->
       <button class="menu-btn vocab-btn" id="btn-random">ランダムで1語学ぶ</button>
       <button class="menu-btn vocab-btn" id="btn-today10">今日の10語</button>
@@ -96,129 +95,8 @@
     <p id="detailExample"></p>
   </div>
 
-  <!-- 🔽 JSON読み込み＋画面切り替え -->
-  <script>
-    /* ------------------------------
-       画面切り替え関数
-    ------------------------------ */
-    function showPage(pageId) {
-      const pages = [
-        "topPage",
-        "randomWordPage",
-        "todayWordsPage",
-        "miniTestPage",
-        "weakWordsPage",
-        "chapterList",
-        "termList",
-        "termDetail"
-      ];
-
-      pages.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add("hidden");
-      });
-
-      document.getElementById(pageId).classList.remove("hidden");
-    }
-
-    /* ------------------------------
-       JSONファイル一覧
-    ------------------------------ */
-    const chapterFiles = [
-      "data/01_ai.json",
-      "data/02_trends.json",
-      "data/03_machine_learning.json",
-      "data/04_deep_learning.json",
-      "data/05_dl_components.json",
-      "data/06_dl_applications.json",
-      "data/07_ai_social_implementation.json",
-      "data/08_math_statistics.json",
-      "data/09_ai_law_contract.json",
-      "data/10_ai_ethics_governance.json"
-    ];
-
-    /* JSONを全部読み込む */
-    async function loadAllChapters() {
-      const allChapters = [];
-      for (const file of chapterFiles) {
-        const response = await fetch(file);
-        const json = await response.json();
-        allChapters.push(json);
-      }
-      return allChapters;
-    }
-
-    /* ------------------------------
-       トップページ → 各ページ
-    ------------------------------ */
-    document.getElementById("btn-chapters").addEventListener("click", () => showPage("chapterList"));
-    document.getElementById("btn-random").addEventListener("click", () => showPage("randomWordPage"));
-    document.getElementById("btn-today10").addEventListener("click", () => showPage("todayWordsPage"));
-    document.getElementById("btn-test").addEventListener("click", () => showPage("miniTestPage"));
-    document.getElementById("btn-wrong").addEventListener("click", () => showPage("weakWordsPage"));
-
-    /* ------------------------------
-       章一覧 → 用語一覧
-    ------------------------------ */
-    document.getElementById("btn-home").addEventListener("click", () => showPage("topPage"));
-    document.getElementById("btn-term-home").addEventListener("click", () => showPage("topPage"));
-    document.getElementById("btn-back-chapters").addEventListener("click", () => showPage("chapterList"));
-    document.getElementById("btn-detail-home").addEventListener("click", () => showPage("topPage"));
-    document.getElementById("btn-detail-back").addEventListener("click", () => showPage("termList"));
-
-    /* ------------------------------
-       用語一覧を表示（完全版）
-    ------------------------------ */
-    function showTerms(chapterIndex, chapterData) {
-      showPage("termList");
-
-      document.getElementById("termListTitle").textContent =
-        `第${chapterIndex + 1}章：${chapterData.chapter_title}`;
-
-      const termButtons = document.getElementById("termButtons");
-      termButtons.innerHTML = "";
-
-      chapterData.terms.forEach((term) => {
-        const btn = document.createElement("button");
-        btn.className = "menu-btn vocab-btn";
-        btn.textContent = term.term;
-
-        btn.addEventListener("click", () => showTermDetail(term));
-
-        termButtons.appendChild(btn);
-      });
-    }
-
-    /* ------------------------------
-       用語詳細を表示
-    ------------------------------ */
-    function showTermDetail(termData) {
-      showPage("termDetail");
-
-      document.getElementById("detailTerm").textContent = termData.term;
-      document.getElementById("detailReading").textContent = termData.reading || "（なし）";
-      document.getElementById("detailDefinition").textContent = termData.definition || "（定義なし）";
-      document.getElementById("detailExample").textContent = termData.example || "（例文なし）";
-    }
-
-    /* ------------------------------
-       章ボタン生成
-    ------------------------------ */
-    window.addEventListener("DOMContentLoaded", async () => {
-      const chapters = await loadAllChapters();
-      const chapterButtons = document.getElementById("chapterButtons");
-
-      chapters.forEach((chapter, index) => {
-        const btn = document.createElement("button");
-        btn.className = "menu-btn vocab-btn";
-        btn.textContent = `第${index + 1}章：${chapter.chapter_title}`;
-
-        btn.addEventListener("click", () => showTerms(index, chapters[index]));
-
-        chapterButtons.appendChild(btn);
-      });
-    });
-  </script>
+  <!-- 🔽 JavaScript 読み込み（これだけでOK） -->
+  <script src="script.js"></script>
 
 </body>
 </html>
