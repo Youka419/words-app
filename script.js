@@ -1,44 +1,50 @@
-function render(filter = "") {
-  list.innerHTML = "";
-
-  const keyword = filter.toLowerCase();
-
-  currentTerms
-    .filter(t => {
-      return (
-        t.term.toLowerCase().includes(keyword) ||
-        t.reading.toLowerCase().includes(keyword) ||
-        t.definition.toLowerCase().includes(keyword) ||
-        t.example.toLowerCase().includes(keyword) ||
-        t.category.toLowerCase().includes(keyword)
-      );
-    })
-    .forEach(t => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <strong>${t.term}</strong><br>
-        <span style="color:#666;">${t.reading}</span><br>
-        ${t.definition}<br>
-        <em>${t.example}</em>
-      `;
-      list.appendChild(li);
-    });
-}  // ← ← ← ここで render を閉じるのが重要！
-
+/* ------------------------------
+   JSONファイル一覧
+------------------------------ */
+const chapterFiles = [
+  "data/01_ai.json",
+  "data/02_trends.json",
+  "data/03_machine_learning.json",
+  "data/04_deep_learning.json",
+  "data/05_dl_components.json",
+  "data/06_dl_applications.json",
+  "data/07_ai_social_implementation.json",
+  "data/08_math_statistics.json",
+  "data/09_ai_law_contract.json",
+  "data/10_ai_ethics_governance.json"
+];
 
 /* ------------------------------
-   ランダム1語
+   JSONを全部読み込む
+------------------------------ */
+async function loadAllChapters() {
+  const allChapters = [];
+  for (const file of chapterFiles) {
+    try {
+      const response = await fetch(file);
+      const json = await response.json();
+      allChapters.push(json);
+    } catch (err) {
+      console.error("読み込み失敗:", file, err);
+    }
+  }
+  return allChapters;
+}
+
+/* ------------------------------
+   ランダム1語を表示
 ------------------------------ */
 async function showRandomWord() {
   const chapters = await loadAllChapters();
-
-  // 全用語を1つの配列にまとめる
   const allTerms = chapters.flatMap(ch => ch.terms);
 
-  // ランダムに1語選ぶ
+  if (allTerms.length === 0) {
+    document.getElementById("randomWordContent").innerHTML = "語彙データが読み込めませんでした。";
+    return;
+  }
+
   const random = allTerms[Math.floor(Math.random() * allTerms.length)];
 
-  // 表示する
   const box = document.getElementById("randomWordContent");
   box.innerHTML = `
     <h3>${random.term}</h3>
@@ -48,15 +54,38 @@ async function showRandomWord() {
     <button class="menu-btn vocab-btn" id="btn-next-random">次の1語</button>
   `;
 
-  // 「次の1語」ボタンを押したらもう一度ランダム表示
   document.getElementById("btn-next-random").addEventListener("click", showRandomWord);
 }
 
+/* ------------------------------
+   ページ切り替え
+------------------------------ */
+function showPage(pageId) {
+  const pages = [
+    "topPage",
+    "randomWordPage",
+    "todayWordsPage",
+    "miniTestPage",
+    "weakWordsPage",
+    "chapterList",
+    "termList",
+    "termDetail"
+  ];
+
+  pages.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add("hidden");
+  });
+
+  document.getElementById(pageId).classList.remove("hidden");
+}
 
 /* ------------------------------
-   ボタン押したらランダム表示
+   ページ読み込み後にイベント登録
 ------------------------------ */
-document.getElementById("btn-random").addEventListener("click", () => {
-  showPage("randomWordPage");
-  showRandomWord();
+window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("btn-random").addEventListener("click", () => {
+    showPage("randomWordPage");
+    showRandomWord();
+  });
 });
