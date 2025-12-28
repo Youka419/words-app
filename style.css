@@ -8,6 +8,11 @@ body {
   padding: 0;
 }
 
+/* 非表示 */
+.hidden {
+  display: none;
+}
+
 /* ============================
    トップページ
 ============================ */
@@ -55,10 +60,6 @@ body {
 /* ============================
    章一覧ページ
 ============================ */
-.hidden {
-  display: none;
-}
-
 #chapterList {
   max-width: 600px;
   margin: 40px auto;
@@ -72,7 +73,9 @@ body {
   gap: 10px;
 }
 
-/* 戻るボタン */
+/* ============================
+   戻るボタン
+============================ */
 .back-btn {
   padding: 10px 16px;
   font-size: 14px;
@@ -88,30 +91,32 @@ body {
 }
 
 /* ============================
-   章内ページ（用語表示）
+   用語一覧ページ
 ============================ */
-#current-chapter-title {
-  font-size: 1.4rem;
+#termList {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+#termButtons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+/* ============================
+   用語詳細ページ
+============================ */
+#termDetail {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+#termDetail p {
   margin-bottom: 12px;
-}
-
-/* 検索ボックス */
-#search {
-  width: 100%;
-  padding: 10px;
-  font-size: 1rem;
-  margin-bottom: 16px;
-  box-sizing: border-box;
-}
-
-/* 用語リスト */
-#list li {
-  list-style: none;
-  margin: 12px 0;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
+  line-height: 1.6;
 }
 
 /* ============================
@@ -121,13 +126,5 @@ body {
   body {
     max-width: 800px;
     margin: 24px auto;
-  }
-
-  #search {
-    font-size: 1.1rem;
-  }
-
-  #list li {
-    padding: 16px;
   }
 }
